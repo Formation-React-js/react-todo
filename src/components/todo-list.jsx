@@ -2,14 +2,19 @@ import React, { Component } from 'react';
 import { ListGroup, Button, Form } from "react-bootstrap";
 import Todo from './todo';
 
+// Les composants qui ont besoin de gérer un état doivent être
+// écrits sous forme d'une classe
 class TodoList extends Component {
+  // Le nom réservé "state" doit contenir un objet Javascript
+  // contenant une collection de clés/valeurs pour chaque propriété
+  // dont il faut suivre l'état
   state = {
     todoName: '',
     todos: [
-      { name: "Acheter des patates" },
-      { name: "Commander un presse-purée" },
-      { name: "Préparer de la purée" },
-      { name: "Mettre la table" },
+      { name: "Acheter des patates", checked: false },
+      { name: "Commander un presse-purée", checked: false },
+      { name: "Préparer de la purée", checked: false },
+      { name: "Mettre la table", checked: false },
     ],
   }
 
@@ -24,6 +29,32 @@ class TodoList extends Component {
     });
   }
 
+  // Cette fonction génère une copie de la fonction qui est réellement utilisée
+  // par le composant Todo pour modifier l'état d'une tâche, dans laquelle
+  // l'index de la tâche ("todoIndex") est remplacé par l'index de la donnée
+  // auquel le composant Todo est lié
+  checkTodo = (todoIndex) => (event) => {
+    const { todos } = this.state;
+    this.setState({
+      // Remplace la liste de tâches actuelle par une nouvelle liste
+      // dans laquelle chaque élément est remplacé...
+      todos: todos.map( (todo, index) =>
+        // ...si l'élément est celui que nous souhaitons modifier...
+        index === todoIndex ?
+          {
+            // ...on garde l'ensemble de ses propriétés actuelles...
+            ...todo,
+            // ...puis on modifie la propriété "checked"
+            checked: event.target.checked
+          }
+        // ...sinon, on garde l'objet non modifié
+        : todo
+      ),
+    });
+  }
+
+  // Le nom réservé "render" doit contenir une méthode qui renvoie
+  // le code JSX permettant d'afficher le composant
   render = () => {
     const { todoName, todos } = this.state;
 
@@ -32,7 +63,11 @@ class TodoList extends Component {
         <ListGroup>
           {todos.map( (todo, index) =>
             <ListGroup.Item key={index}>
-              <Todo name={todo.name} />
+              <Todo
+                name={todo.name}
+                checked={todo.checked}
+                checkTodo={this.checkTodo(index)}
+              />
             </ListGroup.Item>
           )}
         </ListGroup>
