@@ -1,0 +1,8 @@
+.Todo {
+    transition: all .3s ease;
+}
+
+.Todo.checked {
+    color: darkgrey;
+    text-decoration: line-through;
+}

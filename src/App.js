@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ListGroup, Container } from 'react-bootstrap';
+import Todo from './components/todo';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <ListGroup>
+        <ListGroup.Item>
+          <Todo name="Acheter des patates" />
+        </ListGroup.Item>
+        <ListGroup.Item>
+          <Todo name="Commander un presse-purée" />
+        </ListGroup.Item>
+        <ListGroup.Item>
+          <Todo name="Préparer de la purée" />
+        </ListGroup.Item>
+      </ListGroup>
+    </Container>
   );
 }
 
